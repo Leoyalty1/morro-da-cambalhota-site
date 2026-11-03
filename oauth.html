@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autorização — Morro da Cambalhota</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+<h1>Autorização recebida</h1>
+<p id="status">Lendo a resposta da rede social...</p>
+<p>Volte ao terminal e cole o endereço completo desta página (ou só o código abaixo). Este código vale por poucos minutos e não é guardado aqui.</p>
+<p><code id="code">—</code></p>
+<button id="copy" type="button">Copiar endereço completo</button>
+</main>
+<script>
+  const q = new URLSearchParams(location.search);
+  const code = q.get('code');
+  const err = q.get('error') || q.get('error_description');
+  document.getElementById('status').textContent = err ? 'A autorização foi recusada: ' + err : code ? 'Pronto! A conta autorizou o aplicativo do canal.' : 'Nenhum código encontrado no endereço.';
+  document.getElementById('code').textContent = code || '—';
+  document.getElementById('copy').onclick = async () => {
+    try { await navigator.clipboard.writeText(location.href); document.getElementById('copy').textContent = 'Copiado!'; } catch { document.getElementById('copy').textContent = 'Copie o endereço pela barra do navegador'; }
+  };
+</script>
+</body>
+</html>
